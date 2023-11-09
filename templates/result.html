@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Processing Result</title>
+</head>
+<body>
+    <h1>Image Processing Result</h1>
+    <h2>Extracted Text:</h2>
+    <ul>
+        {% for text in text %}
+            <li>{{ text }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Processed Image:</h2>
+    <img src="{{ url_for('uploaded_file', filename=image_path) }}" alt="Processed Image" height="20%" width="20%">
+</body>
+</html>

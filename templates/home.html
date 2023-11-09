@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <style>
+        @font-face {
+            font-family: "Montserrat";
+            src: url("path/to/font.woff2") format("woff2"),
+                 url("path/to/font.woff") format("woff");
+            /* Add additional font formats if necessary */
+            /* Make sure to update the path to the actual font files */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar h1 {
+            color: #333;
+            margin: 0;
+            font-size: 24px;
+            font-family: "Montserrat", Arial, sans-serif;
+            /* Update the font-family name to match the font you're using */
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .left-section {
+            flex: 1;
+            padding: 50px;
+            text-align: left;
+            color: #fff;
+        }
+
+        .right-section {
+            flex: 1;
+            padding: 50px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 30px;
+            color: #fff;
+            font-family: math;
+            /* Update the font-family name to match the font you're using */
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            background: linear-gradient(45deg, #FF416C, #FF4B2B);
+            border: none;
+            color: white;
+            text-align: center;
+            font-size: 20px;
+            padding: 15px 30px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition-duration: 0.4s;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background: linear-gradient(45deg, #FF4B2B, #FF416C);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Image Processing App</h1>
+    </div>
+    <div class="container">
+        <div class="left-section">
+            <h1 style="color: black;">Welcome to Image Processing App</h1>
+            <p>Welcome to the Image Processing App, where creativity meets technology. Unleash your imagination and enhance your images with our powerful yet intuitive tools. From filters to enhancements, cropping to resizing, and more, our app empowers you to transform your photos with ease. Elevate your visual storytelling and make your images truly captivating. Get started today and experience the magic of image processing at your fingertips.</p>
+        </div>
+        <div class="right-section">
+            <div class="button-container">
+                <button class="button" onclick="window.location.href='/index'">Upload Image</button>
+                <button class="button" onclick="window.location.href='/realtime'">Real-time Processing</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

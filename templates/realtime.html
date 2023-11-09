@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Processing</title>
+    <style>
+        /* CSS styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        #image-input {
+            text-align: center;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        label {
+            background-color: #215e86;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        label:hover {
+            background-color: #2980b9;
+        }
+
+        button[type="submit"] {
+            background-color: #00932c;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+
+        #result-container {
+            text-align: center;
+            border-radius: 10dp;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        #extracted-text {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #processed-image {
+            max-width: 100%;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            margin-top: 15px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #loading-indicator {
+            display: none;
+            color: #333;
+            font-style: italic;
+        }
+
+        .container {
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            background-color: rgb(255, 255, 255);
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            flex: 1;
+            margin-right: 20px;
+            background-color: rgb(255, 255, 255);
+        }
+
+        .content:last-child {
+            margin-right: 0;
+        }
+
+        .content h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .content p {
+            color: #555;
+        }
+
+        #captured-image {
+            max-width: 100%;
+            margin-top: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body style="background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background: url(https://c4.wallpaperflare.com/wallpaper/413/925/249/minimalism-abstract-pattern-digital-art-wallpaper-preview.jpg);">
+    <!-- Header section -->
+    <div class="container">
+        <!-- First content -->
+        <div class="content" style="background: url(https://img.freepik.com/free-photo/retinal-biometrics-technology-with-man-s-eye-digital-remix_53876-108518.jpg?w=1060&t=st=1688927916~exp=1688928516~hmac=da5bd51aecf05b1d3ee08b200d487fd0a041b91d67b64579ae5be08c50480b2e);
+        background-size: cover;
+        padding-bottom: 100px;
+        background-position: center;
+        border-radius: 10px;">
+            <div style="margin-bottom: 10px; text-align: left;">
+                <button onclick="window.location.href='/home'" style="
+                padding-right: 20px;
+                padding-left: 20px;
+                font-family: sans-serif;
+                font-weight: bold;
+                font-size: 20px;
+                ">Home</button>
+            </div>
+        </div>
+        <div class="content">
+            <div id="video-container">
+                <h2 style="font-family: cursive; margin-left: 26%;">Realtime Image to Text Converter</h2>
+                <video id="video-element" autoplay style="
+                height: 350px;
+                padding: 10px;
+                background: #ffffff;
+                border-radius: 10px;
+                margin-top: 5px;
+                margin-left: 20%;
+                margin-right: 25%;
+                margin-bottom: 2px;
+            "></video>
+            </div>
+        </div>
+    </div>
+    <div style="align-items: center; text-align: center; margin-top: 5px;">
+        <div id="capture-button-container">
+            <button id="capture-button" style="
+            background-color: #00932c;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 15px;
+            border: none;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 25px;
+            padding-right: 50px;
+            padding-left: 50px;
+            transition: background-color 0.3s ease;
+            margin-top: 30px;
+            ">Capture Image</button>
+        </div>
+    </div>
+
+    <!-- Result section -->
+    <div id="loading-container" class="loading">
+        <p id="loading-message" style="color: white; font-size: 30px;">Processing...</p>
+        <div class="spinner"></div>
+    </div>
+    <div id="result-container">
+        <div style="background: url(https://img.freepik.com/free-vector/gradient-network-connection-background_23-2148865393.jpg?w=1060&t=st=1688993373~exp=1688993973~hmac=aef020a2d8e327d75384f63aa633d3ebd59f878a63bfb71157db82d4e9c2626b);
+            background-color: rgb(203, 203, 203);
+            padding: 2px;
+            border-radius: 10px;
+            margin-top: 15px;
+        ">
+            <h3 style="color: white; margin-left: 10px; text-align: left;">Extracted Text:</h3>
+            <ul id="extracted-text"></ul>
+        </div>
+    </div>
+<div>
+    <div id="captured-image-container" style="text-align: center; margin-top: 20px;     margin-left: 35%;">
+        <img id="captured-image" src="" alt="Captured Image" style="display: none; ">
+    </div>
+</div>
+    <script>
+        const videoElement = document.getElementById('video-element');
+        const captureButton = document.getElementById('capture-button');
+        const extractedTextElement = document.getElementById('extracted-text');
+        const loadingContainer = document.getElementById('loading-container');
+        const loadingMessage = document.getElementById('loading-message');
+        const capturedImageElement = document.getElementById('captured-image');
+        const capturedImageContainer = document.getElementById('captured-image-container');
+
+        // Check if getUserMedia is supported by the browser
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    videoElement.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.error('Error accessing webcam:', error);
+                });
+        } else {
+            console.error('getUserMedia is not supported by the browser');
+        }
+
+        // Add click event listener to the capture button
+        captureButton.addEventListener('click', function () {
+            captureImage();
+        });
+
+        // Function to capture image from video stream
+        function captureImage() {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+            const imageBlob = dataURItoBlob(canvas.toDataURL('image/jpeg'));
+            const formData = new FormData();
+            formData.append('image', imageBlob, 'captured_image.jpg');
+
+            showLoading();
+
+            fetch('/process_image', {
+                method: 'POST',
+                body: formData
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (result) {
+                    console.log('Image processed:', result);
+                    hideLoading();
+                    displayResult(result);
+                    displayCapturedImage(canvas.toDataURL('image/jpeg'));
+                })
+                .catch(function (error) {
+                    console.error('Error processing image:', error);
+                    hideLoading();
+                });
+        }
+
+        // Function to convert data URI to Blob
+        function dataURItoBlob(dataURI) {
+            const byteString = atob(dataURI.split(',')[1]);
+            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            const ab = new ArrayBuffer(byteString.length);
+            const ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], { type: mimeString });
+        }
+
+        // Function to show the loading indicator
+        function showLoading() {
+            loadingContainer.classList.add('active');
+        }
+
+        // Function to hide the loading indicator
+        function hideLoading() {
+            loadingContainer.classList.remove('active');
+        }
+
+        // Function to display the extracted text
+        function displayResult(result) {
+            extractedTextElement.innerHTML = '';
+
+            if (result.text && result.text.length > 0) {
+                result.text.forEach(function (text) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = text;
+                    extractedTextElement.appendChild(listItem);
+                });
+            } else {
+                const listItem = document.createElement('li');
+                listItem.textContent = 'No text extracted.';
+                extractedTextElement.appendChild(listItem);
+            }
+        }
+
+        // Function to display the captured image
+        function displayCapturedImage(imageDataUrl) {
+            capturedImageElement.src = imageDataUrl;
+            capturedImageElement.style.display = 'block';
+            capturedImageContainer.style.display = 'block';
+        }
+    </script>
+    <style>
+        .loading {
+            display: none;
+        }
+
+        .loading.active {
+            display: block;
+        }
+    </style>
+</body>
+</html>
